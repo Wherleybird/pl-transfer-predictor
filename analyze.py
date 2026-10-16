@@ -9,6 +9,7 @@ from sklearn.metrics import mean_absolute_error, r2_score
 from sklearn.model_selection import GroupKFold, cross_val_predict
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
+from features import CAT_COLS, NUM_COLS, load_features
 
 warnings.filterwarnings("ignore", message="Found unknown categories")
 
@@ -17,34 +18,14 @@ DATA_DIR = ROOT / "data"
 CHART_DIR = ROOT / "charts"
 CHART_DIR.mkdir(exist_ok=True)
 
-# ---------- Load and build features (final model: F2) ----------
-df = pd.read_csv(DATA_DIR / "merged.csv")
-df = df[df["market_value_in_eur"] > 0].copy()
-df["club"] = df["club"].fillna("Unknown")
-df["log_value"] = np.log(df["market_value_in_eur"])
-df["goals_per90"] = df["goals_scored"] / df["minutes"] * 90
-df["assists_per90"] = df["assists"] / df["minutes"] * 90
-df["clean_sheets_per90"] = df["clean_sheets"] / df["minutes"] * 90
-df["saves_per90"] = df["saves"] / df["minutes"] * 90
-df["bonus_per90"] = df["bonus"] / df["minutes"] * 90
-df["age_sq"] = (df["age"] - 25) ** 2
-df["age_over29"] = (df["age"] - 29).clip(lower=0)
-df["age_under21"] = (21 - df["age"]).clip(lower=0)
-df["minutes_k"] = df["minutes"] / 1000
-df = df.dropna(subset=["age", "goals_per90", "assists_per90"]).reset_index(drop=True)
-
-club_counts = df["club"].value_counts()
-rare = club_counts[club_counts < 10].index
-df["club_group"] = df["club"].where(~df["club"].isin(rare), "Other")
+df = load_features()
 
 # Cleaner display names from Transfermarkt
 tm_names = pd.read_csv(DATA_DIR / "players.csv.gz").set_index("player_id")["name"]
 df["player"] = df["tm_player_id"].map(tm_names).fillna(df["first_name"] + " " + df["second_name"])
 
 # ---------- Out-of-fold predictions ----------
-num_cols = ["goals_per90", "assists_per90", "clean_sheets_per90", "saves_per90",
-            "bonus_per90", "minutes_k", "age", "age_sq", "age_over29", "age_under21"]
-cat_cols = ["position", "season_name", "club_group"]
+num_cols, cat_cols = NUM_COLS, CAT_COLS
 
 pre = ColumnTransformer(
     [("cat", OneHotEncoder(drop="first", handle_unknown="ignore"), cat_cols)],
