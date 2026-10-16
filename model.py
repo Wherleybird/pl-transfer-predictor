@@ -46,6 +46,9 @@ df["age_band"] = pd.cut(
     right=False,
 ).astype(str)
 
+df["age_over29"] = (df["age"] - 29).clip(lower=0)    # extra penalty per year past 29
+df["age_under21"] = (21 - df["age"]).clip(lower=0)   # extra premium per year below 21
+
 print("\nClub groups:", df["club_group"].nunique())
 print(df["age_band"].value_counts().sort_index())
 
@@ -115,3 +118,12 @@ evaluate(
      "bonus_per90", "minutes_k"],
     ["position", "season_name", "club_group", "age_band"],
 )
+
+D_NUM = ["goals_per90", "assists_per90", "clean_sheets_per90", "saves_per90",
+         "bonus_per90", "minutes_k", "age", "age_sq"]
+
+evaluate("Model F1: Model D with grouped clubs", D_NUM,
+         ["position", "season_name", "club_group"])
+
+evaluate("Model F2: F1 + age hinges", D_NUM + ["age_over29", "age_under21"],
+         ["position", "season_name", "club_group"])
