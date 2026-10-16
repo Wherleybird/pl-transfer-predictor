@@ -1,7 +1,15 @@
 [theme]
 base = "light"
-primaryColor = "#1f6feb"
-backgroundColor = "#ffffff"
-secondaryBackgroundColor = "#f4f6fa"
-textColor = "#1a1f36"
-font = "sans serif"
+primaryColor = "#17803A"
+backgroundColor = "#F2F5F3"
+secondaryBackgroundColor = "#E6ECE8"
+textColor = "#16231C"
+borderColor = "#D3DDD7"
+baseRadius = "0.6rem"
+font = "Barlow:https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap"
+
+[client]
+toolbarMode = "minimal"
+
+[server]
+headless = true

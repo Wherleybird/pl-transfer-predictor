@@ -1,0 +1,120 @@
+{
+  "version": 1,
+  "trained_on_rows": 1073,
+  "intercept": 16.51929735324859,
+  "numeric": {
+    "goals_per90": 0.45209496471171046,
+    "assists_per90": 0.15323985934009865,
+    "clean_sheets_per90": 0.29830807818665284,
+    "saves_per90": 0.09456052719960863,
+    "bonus_per90": 0.19199891856830667,
+    "minutes_k": 0.380740951404882,
+    "age": -0.04178087470672992,
+    "age_sq": -0.008671037750158338,
+    "age_over29": -0.18670003885727113,
+    "age_under21": 0.08050794986643453
+  },
+  "numeric_means": {
+    "goals_per90": 0.1386684250337592,
+    "assists_per90": 0.1279661679336613,
+    "clean_sheets_per90": 0.2776833320281693,
+    "saves_per90": 0.22109013607651065,
+    "bonus_per90": 0.29932141050696737,
+    "minutes_k": 1.9604603914259087,
+    "age": 26.000378910383866,
+    "age_sq": 13.720127228319189,
+    "age_over29": 0.4688435514747204,
+    "age_under21": 0.0742626078602854
+  },
+  "categorical": {
+    "position": {
+      "DEF": 0.0,
+      "FWD": 0.07203873151430792,
+      "GKP": -0.3634877410237599,
+      "MID": 0.12136846890511689
+    },
+    "season_name": {
+      "2021/22": 0.0,
+      "2022/23": 0.14788637601555712,
+      "2023/24": 0.21526822200114978,
+      "2024/25": 0.24319716750144965,
+      "2025/26": 0.32753183989880835
+    },
+    "club_group": {
+      "AFC Bournemouth": 0.0,
+      "Arsenal FC": 0.9832146692456385,
+      "Aston Villa": 0.5948462072728046,
+      "Brentford FC": 0.17293352812768933,
+      "Brighton & Hove Albion": 0.4087438060541651,
+      "Burnley FC": -0.2235475826763597,
+      "Chelsea FC": 0.8462830383745213,
+      "Crystal Palace": 0.21341626788810047,
+      "Everton FC": 0.2944070534736906,
+      "Fulham FC": 0.20138014420603292,
+      "Ipswich Town": -0.2148156213860392,
+      "Leeds United": -0.018440277382360714,
+      "Leicester City": 0.31855732243180346,
+      "Liverpool FC": 1.0021895673769494,
+      "Manchester City": 1.1781193735639532,
+      "Manchester United": 0.8430180492155559,
+      "Newcastle United": 0.593608165700753,
+      "Nottingham Forest": 0.3092762364263503,
+      "Other": -0.3149010360631236,
+      "Sunderland AFC": 0.0010295671176301455,
+      "Tottenham Hotspur": 0.7617696678984175,
+      "West Ham United": 0.332071964872038,
+      "Wolverhampton Wanderers": 0.5702987042304328
+    }
+  },
+  "categorical_mean_coef": {
+    "position": 0.036706445330749765,
+    "season_name": 0.22022210156496583,
+    "club_group": 0.5008339877186744
+  },
+  "baseline_log_value": 16.980158531168545,
+  "residual_sigma": 0.42568340356107154,
+  "metrics": {
+    "oof_r2": 0.7522543730516584,
+    "oof_mae_m": 8.807123390611537,
+    "cv_r2_mean": 0.7390180826027632,
+    "cv_r2_std": 0.062103130642109254
+  },
+  "defaults": {
+    "DEF": {
+      "minutes": 2050.0,
+      "goals": 1.0,
+      "assists": 1.0,
+      "clean_sheets": 6.0,
+      "saves": 0.0,
+      "bonus": 4.0,
+      "age": 26.04243668720055
+    },
+    "FWD": {
+      "minutes": 1770.0,
+      "goals": 8.0,
+      "assists": 2.0,
+      "clean_sheets": 6.0,
+      "saves": 0.0,
+      "bonus": 12.0,
+      "age": 26.236824093086927
+    },
+    "GKP": {
+      "minutes": 2790.0,
+      "goals": 0.0,
+      "assists": 0.0,
+      "clean_sheets": 7.0,
+      "saves": 86.0,
+      "bonus": 7.0,
+      "age": 29.65366187542779
+    },
+    "MID": {
+      "minutes": 1885.0,
+      "goals": 3.0,
+      "assists": 3.0,
+      "clean_sheets": 6.0,
+      "saves": 0.0,
+      "bonus": 5.0,
+      "age": 24.92265571526352
+    }
+  }
+}
