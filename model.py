@@ -11,6 +11,7 @@ from sklearn.preprocessing import OneHotEncoder
 DATA_DIR = Path(__file__).parent / "data"
 
 df = pd.read_csv(DATA_DIR / "merged.csv")
+df["club"] = df["club"].fillna("Unknown")
 df = df[df["market_value_in_eur"] > 0].copy()
 df["log_value"] = np.log(df["market_value_in_eur"])
 df["goals_per90"] = df["goals_scored"] / df["minutes"] * 90
@@ -40,7 +41,7 @@ train_idx, test_idx = next(gss.split(df, y, groups))
 
 def evaluate(name, num_cols, cat_cols):
     pre = ColumnTransformer(
-        [("cat", OneHotEncoder(drop="first"), cat_cols)], remainder="passthrough"
+           [("cat", OneHotEncoder(drop="first", handle_unknown="ignore"), cat_cols)], remainder="passthrough"
     )
     model = Pipeline([("pre", pre), ("lr", LinearRegression())])
     X = df[num_cols + cat_cols]
@@ -82,3 +83,10 @@ evaluate(
      "bonus_per90", "minutes_k", "age", "age_sq"],
     ["position", "season_name"],
 )
+
+evaluate(
+       "Model D: Model C + club",
+       ["goals_per90", "assists_per90", "clean_sheets_per90", "saves_per90",
+        "bonus_per90", "minutes_k", "age", "age_sq"],
+       ["position", "season_name", "club"],
+   )
