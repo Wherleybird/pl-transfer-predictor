@@ -1,4 +1,4 @@
-"""Data and model logic for the Value Gap app.
+"""Data and model logic for the EPL's Value Gap app.
 
 Nothing in here imports Streamlit, so every function can be tested on its own.
 """
