@@ -73,9 +73,12 @@ for end_year in range(2022, 2027):
     season_rows.append(latest)
 
 season_vals = pd.concat(season_rows)[
-    ["player_id", "season_name", "date", "market_value_in_eur"]
-].rename(columns={"player_id": "tm_player_id", "date": "value_date"})
-print("Player-season valuations:", len(season_vals))
+    ["player_id", "season_name", "date", "market_value_in_eur", "current_club_name"]
+].rename(columns={
+    "player_id": "tm_player_id",
+    "date": "value_date",
+    "current_club_name": "club",
+})
 
 # ---------- Match FPL players to Transfermarkt players ----------
 cand = players[players["player_id"].isin(season_vals["tm_player_id"])].copy()
