@@ -1,6 +1,8 @@
 from pathlib import Path
 import numpy as np
 import pandas as pd
+import warnings
+warnings.filterwarnings("ignore", message="Found unknown categories")
 from sklearn.compose import ColumnTransformer
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, r2_score
@@ -30,6 +32,22 @@ print(df.groupby("season_name")[["clean_sheets", "saves", "bonus"]]
 before = len(df)
 df = df.dropna(subset=["age", "goals_per90", "assists_per90"]).reset_index(drop=True)
 print(f"Rows: {len(df)} (dropped {before - len(df)} with missing values)")
+
+# Group clubs with fewer than 10 player-seasons into "Other"
+club_counts = df["club"].value_counts()
+rare = club_counts[club_counts < 10].index
+df["club_group"] = df["club"].where(~df["club"].isin(rare), "Other")
+
+# Age bands (the numbers in the labels keep them sorted correctly)
+df["age_band"] = pd.cut(
+    df["age"],
+    bins=[0, 21, 25, 29, 33, 100],
+    labels=["1: under 21", "2: 21-24", "3: 25-28", "4: 29-32", "5: 33+"],
+    right=False,
+).astype(str)
+
+print("\nClub groups:", df["club_group"].nunique())
+print(df["age_band"].value_counts().sort_index())
 
 y = df["log_value"]
 groups = df["player_id"]  # keeps each player entirely in train OR test
@@ -90,3 +108,10 @@ evaluate(
         "bonus_per90", "minutes_k", "age", "age_sq"],
        ["position", "season_name", "club"],
    )
+
+evaluate(
+    "Model E: Model C + grouped club + age bands",
+    ["goals_per90", "assists_per90", "clean_sheets_per90", "saves_per90",
+     "bonus_per90", "minutes_k"],
+    ["position", "season_name", "club_group", "age_band"],
+)
